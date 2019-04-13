@@ -1,23 +1,35 @@
 import numpy as np
-import tensorflow as tf
+from tensorflow.examples.tutorials.mnist import input_data
+from tensorflow.image import resize_images, ResizeMethod
+from keras.datasets import mnist
 import cv2
 
-mnist = tf.contrib.learn.datasets.load_dataset("mnist")
+(train_images, train_labels), (test_images, test_labels) = mnist.load_data()
+#mnist = input_data.read_data_sets('MNIST_data', one_hot=True)
+
+#train_images = mnist.train.images
+#train_labels = mnist.train.labels
+
+train = train_images[:1000]
+train_labels = train_labels[:1000]
+
+print(train.shape)
 
 def resize(mnist):
      train_data = []
      for img in mnist:
-            resized_img = cv2.resize(img, (15, 15))
-            train_data.append(resized_img)
+          new_img = cv2.resize(img, dsize=(15, 15),interpolation=cv2.INTER_CUBIC)
+          #new_img = resize_images(img, (15,15), method=ResizeMethod.BILINEAR, align_corners=False)
+          train_data.append(new_img)
      return train_data
 
-data = np.array(resize(mnist.train._images))
-#data = np.array(resize(mnist.test._images))
+train = np.array(resize(train))
+#train = train.resize(-1,15*15)
+print(train.shape)
 
-print(data)
-print(data.shape)
 
-np.save('./data/data', data)
-#np.save('./data/test_data', test_data)
+
+np.save('./data/train', train)
+np.save('./data/labels', train_labels)
 
 
