@@ -170,6 +170,8 @@ class MiniSom(object):
             self._activation_map[it.multi_index] =  dist 
             it.iternext()
 
+    
+
     def activate(self, x):
         """Returns the activation map to x."""
         self._activate(x)

@@ -19,7 +19,6 @@ def resize(mnist):
      train_data = []
      for img in mnist:
           new_img = cv2.resize(img, dsize=(15, 15),interpolation=cv2.INTER_CUBIC)
-          #new_img = resize_images(img, (15,15), method=ResizeMethod.BILINEAR, align_corners=False)
           train_data.append(new_img)
      return train_data
 
