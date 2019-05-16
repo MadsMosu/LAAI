@@ -42,8 +42,8 @@ for num_iter in experiments:
 			sigma=sigma, 
 			learning_rate=lr,
 			neighborhood_function='gaussian')
-	som.pca_weights_init(train_data)
-	#som.random_weights_init(train_data)
+	#som.pca_weights_init(train_data)
+	som.random_weights_init(train_data)
 	som.train_random(train_data.reshape(-1,15*15), num_iter, verbose=True)
 	t1 = time.time() - t0
 	#print(time)
@@ -80,11 +80,11 @@ for num_iter in experiments:
 				color=plt.cm.rainbow(t / 10.), fontdict={'weight': 'bold',  'size': 11})
 		im = im + 1
 	plt.axis([0, som.get_weights().shape[0], 0,  som.get_weights().shape[1]])
-	plt.savefig('results/euclidian/umatrix_'+str(num_iter)+'.png')
+	plt.savefig('results/random/umatrix_'+str(num_iter)+'.png')
 
 
-np.save('results/euclidian/q_errors', learning_curves)
-np.save('results/euclidian/iterations', iterations)
+np.save('results/random/q_errors', learning_curves)
+np.save('results/random/iterations', iterations)
 
 plt.figure()
 plt.bar([1,2,3,4,5,6,7,8,9,10], height=allTimes) #
@@ -92,7 +92,7 @@ plt.title('Computational times')
 plt.xlabel('Number of iterations')
 plt.ylabel('Time in seconds')
 plt.xticks([1,2,3,4,5,6,7,8,9,10], experiments) #
-plt.savefig('./results/euclidian/computation_times.png')
+plt.savefig('./results/random/computation_times.png')
 
 
 plt.figure(figsize=(12,8), dpi=100)
@@ -101,7 +101,7 @@ for lr, it in zip(learning_curves, iterations):
 plt.title('Learning curves')
 plt.ylabel('Quantization error')
 plt.xlabel('Iteration')
-plt.savefig('./results/euclidian/lcurves.png')
+plt.savefig('./results/random/lcurves.png')
 
 
 

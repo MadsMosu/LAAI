@@ -54,13 +54,23 @@ formula2Values = generateFormula2Values()
 formula1Labels = formula1(formula1Values)
 formula2Labels = formula2(formula2Values)
 
-#generate 600 samples for training set
+
+
+#generate 700 samples for training set
 train1, rest1, train1labels, rest1labels = train_test_split(formula1Values, formula1Labels, test_size=0.3, shuffle=False)
-test1, val1, test1labels, val1labels = train_test_split(formula1Values, formula1Labels, test_size=0.5, shuffle=False)
+test1, val1, test1labels, val1labels = train_test_split(rest1, rest1labels, test_size=0.5, shuffle=False)
 
 #generate (42,2) samples for training set
 train2, rest2, train2labels, rest2labels = train_test_split(formula2Values, formula2Labels, test_size=0.3, shuffle=False)
-test2, val2, test2labels, val2labels = train_test_split(formula2Values, formula2Labels, test_size=0.5, shuffle=False)
+test2, val2, test2labels, val2labels = train_test_split(rest2, rest2labels, test_size=0.5, shuffle=False)
+
+print(train1.shape)
+print(test1labels.shape)
+print(val1.shape)
+
+print(train2.shape)
+print(test2.shape)
+print(val2.shape)
 
 np.save('formula1-data/values', formula1Values)
 np.save('formula1-data/labels', formula1Labels)

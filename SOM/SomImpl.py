@@ -386,7 +386,8 @@ class MiniSom(object):
         self._check_input_len(data)
         error = 0
         for x in data:
-            error += fast_norm(x-self._weights[self.winner(x)])
+            dist = correlation(x, self._weights[self.winner(x)])
+            error += dist#fast_norm(x-self._weights[self.winner(x)])
         return error/len(data)
 
     def win_map(self, data):

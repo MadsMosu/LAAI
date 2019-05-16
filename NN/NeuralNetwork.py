@@ -78,7 +78,7 @@ def save_summary(dir, model):
 
 batch_size = 5
 epochs = 1000
-formula = '2'
+formula = '1'
 model_type = 'multi-hidden'
 
 experimental_neurons = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
@@ -92,7 +92,7 @@ allTestAcc = []
 
 for n in experimental_neurons:
     model = Sequential()
-    model.add(Dense(units=n, input_dim=2))
+    model.add(Dense(units=n, input_dim=1))
     model.add(Activation(activation='sigmoid'))
     model.add(BatchNormalization())
 
@@ -108,11 +108,11 @@ for n in experimental_neurons:
 
     #checkpoint = keras.callbacks.ModelCheckpoint(os.path.abspath('./models/formula'+formula+'/'+model_type+'/model_n'+str(n)+'.h5'), monitor='mean_squared_error', verbose=0, save_best_only=True, mode='auto')
     time_callback = TimeHistory()
-    history = model.fit(f2_train, f2_train_labels,
+    history = model.fit(f1_train, f1_train_labels,
         #batch_size=batch_size,
         epochs=epochs,
         verbose=0,
-        validation_data=(f2_val, f2_val_labels),
+        validation_data=(f1_val, f1_val_labels),
         callbacks=[time_callback],
         shuffle=True,
         #validation_split=0.25
@@ -120,7 +120,7 @@ for n in experimental_neurons:
     time = time_callback.times
 
     #loadedModel = load_model(os.path.abspath('./models/formula'+formula+'/'+model_type+'/model_n'+str(n)+'.h5'))
-    loss = model.evaluate(f2_test, f2_test_labels, verbose=1)
+    loss = model.evaluate(f1_test, f1_test_labels, verbose=1)
     print('Test loss:', loss[0])
     allTestLosses.append(loss[0])
     allTrainingLosses.append(history.history['loss'])
@@ -139,12 +139,12 @@ for n in experimental_neurons:
     save_summary('./models/formula'+formula+'/'+model_type+'/summaries/model_n'+str(n)+'_summary.txt', model)
 
     #plot test prediction vs actual
-    #f1_values = np.sort(f1_values)
-    f2_labels = formula1(f2_values)
-    predictions = model.predict(f2_values).reshape(-1,1)
+    f1_values = np.sort(f1_values)
+    # f2_labels = formula1(f2_values)
+    predictions = model.predict(f1_values).reshape(-1,1)
     pyplot.figure()
     pyplot.plot(predictions)
-    pyplot.plot(f2_labels)
+    pyplot.plot(f1_labels)
     pyplot.title('Model prediction - n = '+str(n))
     pyplot.ylabel('y')
     pyplot.xlabel('x')
